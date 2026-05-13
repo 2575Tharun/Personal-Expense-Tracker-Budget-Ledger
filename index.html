@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FinTrack Premium | Personal Asset Ledger</title>
     <style>
-        /* Base Variables & Structural Foundations */
+        /* Modern Design System Tokens */
         :root {
             --color-bg-base: #f8fafc;
             --color-surface: #ffffff;
@@ -33,13 +33,12 @@
             overflow: hidden;
         }
 
-        /* Layout Component Panels */
+        /* Responsive Dashboard Split Panels */
         .sidebar {
             width: 260px;
             background-color: var(--color-surface);
             border-right: 1px solid var(--color-border);
             display: flex;
-            flex-col: column;
             flex-direction: column;
             padding: 24px;
             height: 100%;
@@ -128,7 +127,7 @@
             opacity: 0.9;
         }
 
-        /* Content Dashboard Matrix */
+        /* Content Dashboard Layout */
         .dashboard-scrollview {
             flex-grow: 1;
             overflow-y: auto;
@@ -156,10 +155,9 @@
             color: var(--color-text-muted);
         }
 
-        /* Metric Balance Cards */
+        /* Metric Grid Cards */
         .metrics-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1xl);
             grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 24px;
             margin-bottom: 32px;
@@ -190,7 +188,7 @@
         .value-green { color: var(--color-accent-green); }
         .value-red { color: var(--color-accent-red); }
 
-        /* Budget Gauge Bar */
+        /* Budget Processing Capacities */
         .budget-card {
             background-color: var(--color-surface);
             border: 1px solid var(--color-border);
@@ -239,7 +237,7 @@
             border-radius: 9999px;
         }
 
-        /* Ledger Statements Grid Structure */
+        /* Professional Structured Ledger Table */
         .ledger-wrapper {
             background-color: var(--color-surface);
             border: 1px solid var(--color-border);
@@ -261,7 +259,6 @@
         }
 
         .ledger-table-header .text-center { text-align: center; }
-        .ledger-table-header .text-right { text-align: right; }
 
         .ledger-rows-container {
             display: flex;
@@ -347,7 +344,7 @@
             font-style: italic;
         }
 
-        /* Overlay Dialog Window Modal */
+        /* Overlay Input Window Dialog Modal */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -368,7 +365,7 @@
             max-width: 400px;
             border-radius: 16px;
             padding: 32px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
         }
 
         .modal-box h3 {
@@ -462,15 +459,16 @@
         </ul>
     </aside>
 
-    <!-- WORKSPACE PANEL -->
+    <!-- WORKSPACE MAIN SYSTEM -->
     <div class="workspace">
-        <!-- TOP NAVBAR -->
+        <!-- TOP NAVIGATION BAR -->
         <header class="top-navbar">
             <div class="nav-breadcrumbs">Ledger / <span>Main Account</span></div>
-            <button onclick="openModal()" class="primary-action-btn">RECORD ENTRY</button>
+            <!-- FIX: Removed inline onclick. Mounted via global event listener framework -->
+            <button id="actionTriggerRecord" class="primary-action-btn">RECORD ENTRY</button>
         </header>
 
-        <!-- DASHBOARD HUB SCROLL CONTAINER -->
+        <!-- DASHBOARD HUB SCROLLVIEW -->
         <div class="dashboard-scrollview">
             <div class="dashboard-container">
                 
@@ -479,7 +477,7 @@
                     <p>Real-time processing of core internal cash assets.</p>
                 </div>
 
-                <!-- METRICS GRID -->
+                <!-- METRICS CONTAINER BALANCE GRID -->
                 <div class="metrics-grid">
                     <div class="card">
                         <div class="card-title">Net Disposable Balance</div>
@@ -495,7 +493,7 @@
                     </div>
                 </div>
 
-                <!-- BUDGET CAPACITY BAR -->
+                <!-- BUDGET CAPACITY SYSTEM ALERTS -->
                 <div class="budget-card">
                     <div class="budget-meta">
                         <div>
@@ -509,16 +507,16 @@
                     </div>
                 </div>
 
-                <!-- HISTORICAL TRANSCRIPT LEDGER -->
+                <!-- HISTORICAL TRANSCRIPT TRANSFERS RECORD SHEET -->
                 <div class="ledger-wrapper">
                     <div class="ledger-table-header">
                         <div>Statement Description</div>
                         <div class="text-center">Assignment</div>
                         <div class="text-center">Value Amount</div>
-                        <div class="text-right">Action</div>
+                        <div class="text-center" style="text-align: right;">Action</div>
                     </div>
                     <div id="ledgerList" class="ledger-rows-container">
-                        <!-- Entries added dynamically via client script -->
+                        <!-- Entries dynamically populated via runtime engine script -->
                     </div>
                 </div>
 
@@ -526,7 +524,7 @@
         </div>
     </div>
 
-    <!-- ENTRY INPUT DIALOG WINDOW MODAL -->
+    <!-- ENTRY FORM DRAWER WINDOW MODAL -->
     <div id="modal" class="modal-overlay">
         <div class="modal-box">
             <h3>Log Account Entry</h3>
@@ -546,149 +544,167 @@
                 <input type="number" id="txAmount" placeholder="0.00" step="0.01" class="form-control">
             </div>
             <div class="modal-actions-container">
-                <button onclick="closeModal()" class="modal-cancel-btn">Cancel</button>
-                <button onclick="handleCreateTransaction()" class="modal-commit-btn">Commit Entry</button>
+                <!-- FIX: Standard clean element nodes. Event mapping decoupled safely below -->
+                <button id="actionTriggerCancel" class="modal-cancel-btn">Cancel</button>
+                <button id="actionTriggerCommit" class="modal-commit-btn">Commit Entry</button>
             </div>
         </div>
     </div>
 
-    <!-- ENGINE CODE LOGIC -->
+    <!-- SECURE APPLICATION EVENT FRAMEWORK -->
     <script>
-        // State Management
-        let ledger = JSON.parse(localStorage.getItem('finTrackPlainLedgerData')) || [];
+        // Secure Application Isolation Scope Execution
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // Isolated State Management Storage Arrays
+            let ledger = JSON.parse(localStorage.getItem('finTrackSecureSandboxData')) || [];
 
-        function handleCreateTransaction() {
+            // Core DOM Node Capture Matrix
+            const modalEl = document.getElementById('modal');
+            const openModalBtn = document.getElementById('actionTriggerRecord');
+            const closeModalBtn = document.getElementById('actionTriggerCancel');
+            const commitEntryBtn = document.getElementById('actionTriggerCommit');
+            
             const descInput = document.getElementById('txDesc');
             const typeInput = document.getElementById('txType');
             const amountInput = document.getElementById('txAmount');
-
-            const description = descInput.value.trim();
-            const type = typeInput.value;
-            const amount = parseFloat(amountInput.value);
-
-            // Validation Rule
-            if (!description || isNaN(amount) || amount <= 0) {
-                alert('Please complete all form fields with valid positive assets.');
-                return;
-            }
-
-            const record = {
-                id: Date.now(),
-                description: description,
-                type: type,
-                amount: amount
-            };
-
-            ledger.push(record);
-            saveDataState();
-            closeModal();
-
-            // Form Reset
-            descInput.value = '';
-            amountInput.value = '';
-
-            renderLedger();
-        }
-
-        function removeEntry(id) {
-            ledger = ledger.filter(item => item.id !== id);
-            saveDataState();
-            renderLedger();
-        }
-
-        function renderLedger() {
             const container = document.getElementById('ledgerList');
-            container.innerHTML = '';
 
-            if (ledger.length === 0) {
-                container.innerHTML = '<div class="empty-placeholder-text">No ledger entries recorded. Click "Record Entry" to initialize metrics.</div>';
-                calculateBalances(0, 0);
-                return;
+            // Event Listeners Mapping - Sandboxed Safe Compilation Architecture
+            if (openModalBtn) openModalBtn.addEventListener('click', openModalWindow);
+            if (closeModalBtn) closeModalBtn.addEventListener('click', closeModalWindow);
+            if (commitEntryBtn) commitEntryBtn.addEventListener('click', processFormEntry);
+
+            // Interface Control Closures
+            function openModalWindow() {
+                modalEl.style.display = 'flex';
+                descInput.focus();
             }
 
-            let incomeTotal = 0;
-            let expenseTotal = 0;
+            function closeModalWindow() {
+                modalEl.style.display = 'none';
+            }
 
-            // Compute values and populate matrix nodes backwards (Newest records on top)
-            const reverseLedger = [...ledger].reverse();
-            
-            reverseLedger.forEach(item => {
-                const isIncome = item.type === 'income';
-                if (isIncome) {
-                    incomeTotal += item.amount;
-                } else {
-                    expenseTotal += item.amount;
+            function processFormEntry() {
+                const description = descInput.value.trim();
+                const type = typeInput.value;
+                const amount = parseFloat(amountInput.value);
+
+                // Comprehensive Form Valuations Rule Checks
+                if (!description || isNaN(amount) || amount <= 0) {
+                    alert('Please input a valid statement reference name and a absolute value asset parameter.');
+                    return;
                 }
 
-                const row = document.createElement('div');
-                row.className = 'ledger-row';
+                const financialRecordObject = {
+                    id: Date.now(),
+                    description: description,
+                    type: type,
+                    amount: amount
+                };
+
+                ledger.push(financialRecordObject);
+                syncMemoryStateStorage();
+                closeModalWindow();
+
+                // Structural Field Erasures
+                descInput.value = '';
+                amountInput.value = '';
+
+                renderCoreInterfaceView();
+            }
+
+            // Global Scope Mount For Row Elements Action
+            window.executeSystemRowRemoval = function(id) {
+                ledger = ledger.filter(item => item.id !== id);
+                syncMemoryStateStorage();
+                renderCoreInterfaceView();
+            };
+
+            function renderCoreInterfaceView() {
+                container.innerHTML = '';
+
+                if (ledger.length === 0) {
+                    container.innerHTML = '<div class="empty-placeholder-text">No data metrics processed. Click "Record Entry" to instantiate active account statement tracking rows.</div>';
+                    executeMatrixBalanceMathematics(0, 0);
+                    return;
+                }
+
+                let totalIncomingCash = 0;
+                let totalOutgoingCash = 0;
+
+                // Loop history parameters backwards to project fresh assets on top lines
+                const inverseDataArray = [...ledger].reverse();
                 
-                row.innerHTML = `
-                    <div class="row-desc">${escapeHtml(item.description)}</div>
-                    <div class="row-type">
-                        <span class="type-badge ${isIncome ? 'badge-income' : 'badge-expense'}">${item.type}</span>
-                    </div>
-                    <div class="row-val ${isIncome ? 'value-green' : 'value-red'}">
-                        ${isIncome ? '+' : '-'}$${item.amount.toFixed(2)}
-                    </div>
-                    <div class="row-actions">
-                        <button onclick="removeEntry(${item.id})" class="delete-entry-btn">Remove</button>
-                    </div>
-                `;
-                container.appendChild(row);
-            });
+                inverseDataArray.forEach(item => {
+                    const statusIsRevenue = item.type === 'income';
+                    if (statusIsRevenue) {
+                        totalIncomingCash += item.amount;
+                    } else {
+                        totalOutgoingCash += item.amount;
+                    }
 
-            calculateBalances(incomeTotal, expenseTotal);
-        }
+                    const dynamicRowElement = document.createElement('div');
+                    dynamicRowElement.className = 'ledger-row';
+                    
+                    dynamicRowElement.innerHTML = `
+                        <div class="row-desc">${escapeHtmlStringInput(item.description)}</div>
+                        <div class="row-type">
+                            <span class="type-badge ${statusIsRevenue ? 'badge-income' : 'badge-expense'}">${item.type}</span>
+                        </div>
+                        <div class="row-val ${statusIsRevenue ? 'value-green' : 'value-red'}">
+                            ${statusIsRevenue ? '+' : '-'}$${item.amount.toFixed(2)}
+                        </div>
+                        <div class="row-actions">
+                            <button onclick="window.executeSystemRowRemoval(${item.id})" class="delete-entry-btn">Delete</button>
+                        </div>
+                    `;
+                    container.appendChild(dynamicRowElement);
+                });
 
-        function calculateBalances(income, expense) {
-            const balance = income - expense;
-
-            document.getElementById('totalIncome').innerText = `$${income.toFixed(2)}`;
-            document.getElementById('totalExpenses').innerText = `$${expense.toFixed(2)}`;
-
-            const netField = document.getElementById('netBalance');
-            netField.innerText = `${balance < 0 ? '-' : ''}$${Math.abs(balance).toFixed(2)}`;
-            
-            if (balance >= 0) {
-                netField.className = 'card-value';
-            } else {
-                netField.className = 'card-value value-red';
+                executeMatrixBalanceMathematics(totalIncomingCash, totalOutgoingCash);
             }
 
-            // Core Logic Capacity Gauge Calculations
-            let ratio = income > 0 ? Math.round((expense / income) * 100) : (expense > 0 ? 100 : 0);
-            document.getElementById('budgetPercent').innerText = `${ratio}% Capacity Used`;
-            
-            const bar = document.getElementById('budgetBar');
-            bar.style.width = `${Math.min(ratio, 100)}%`;
+            function executeMatrixBalanceMathematics(revenue, expense) {
+                const calculatedNetWealth = revenue - expense;
 
-            if (ratio >= 50) {
-                bar.style.backgroundColor = 'var(--color-accent-red)';
-            } else {
-                bar.style.backgroundColor = 'var(--color-accent-green)';
+                document.getElementById('totalIncome').innerText = `$${revenue.toFixed(2)}`;
+                document.getElementById('totalExpenses').innerText = `$${expense.toFixed(2)}`;
+
+                const netFieldElementNode = document.getElementById('netBalance');
+                netFieldElementNode.innerText = `${calculatedNetWealth < 0 ? '-' : ''}$${Math.abs(calculatedNetWealth).toFixed(2)}`;
+                
+                if (calculatedNetWealth >= 0) {
+                    netFieldElementNode.className = 'card-value';
+                } else {
+                    netFieldElementNode.className = 'card-value value-red';
+                }
+
+                // Threshold Bar Vector Calculations
+                let thresholdRatioPercentage = revenue > 0 ? Math.round((expense / revenue) * 100) : (expense > 0 ? 100 : 0);
+                document.getElementById('budgetPercent').innerText = `${thresholdRatioPercentage}% Capacity Used`;
+                
+                const trackingBarNodeFill = document.getElementById('budgetBar');
+                trackingBarNodeFill.style.width = `${Math.min(thresholdRatioPercentage, 100)}%`;
+
+                if (thresholdRatioPercentage >= 50) {
+                    trackingBarNodeFill.style.backgroundColor = 'var(--color-accent-red)';
+                } else {
+                    trackingBarNodeFill.style.backgroundColor = 'var(--color-accent-green)';
+                }
             }
-        }
 
-        // Helper Utilities
-        function saveDataState() {
-            localStorage.setItem('finTrackPlainLedgerData', JSON.stringify(ledger));
-        }
+            function syncMemoryStateStorage() {
+                localStorage.setItem('finTrackSecureSandboxData', JSON.stringify(ledger));
+            }
 
-        function openModal() {
-            document.getElementById('modal').style.display = 'flex';
-        }
+            function escapeHtmlStringInput(str) {
+                return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+            }
 
-        function closeModal() {
-            document.getElementById('modal').style.display = 'none';
-        }
-
-        function escapeHtml(str) {
-            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
-        }
-
-        // Initialize Runtime Process
-        window.onload = () => renderLedger();
+            // Cold Start Runtime Processing Instantiation
+            renderCoreInterfaceView();
+        });
     </script>
 </body>
 </html>
